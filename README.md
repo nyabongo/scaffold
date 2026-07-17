@@ -1,11 +1,14 @@
 # scaffold
 
+[![CI](https://github.com/nyabongo/scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/nyabongo/scaffold/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A template repository for new projects: **NestJS** backend + **Angular** frontend, **Firebase** Google sign-in with custom `@username` profiles, full test coverage, VS Code debugging, devcontainers, and linting — all wired together as a pnpm monorepo.
 
 ## Using this as a template
 
 1. Click **Use this template** on GitHub (or `git clone` and re-point the remote).
-2. Rename the root package (`package.json` `name`), and update `README.md`.
+2. Rename the root package (`package.json` `name`), and update `README.md` — including the CI/license badge URLs above, which currently point at this template's own repo.
 3. Create a Firebase project, enable the **Google** sign-in provider, and:
    - Copy the web app config into `apps/frontend/src/environments/environment.ts` (and `.prod.ts`).
    - Generate a service account key (Project Settings → Service Accounts) and fill in `apps/backend/.env` (see below).

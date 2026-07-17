@@ -25,6 +25,7 @@ pnpm-debug.log*
 !.vscode/launch.json
 !.vscode/settings.json
 !.vscode/extensions.json
+.claude/
 
 # testing
 /test-results/
