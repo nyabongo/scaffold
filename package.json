@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "description": "NestJS + Angular template repository with Firebase auth and @username profiles",
+  "license": "MIT",
   "engines": {
     "node": ">=24"
   },

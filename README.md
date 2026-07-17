@@ -1,5 +1,8 @@
 # scaffold
 
+[![CI](https://github.com/nyabongo/scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/nyabongo/scaffold/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A template repository for new projects: **NestJS** backend + **Angular** frontend, **Firebase** Google sign-in with custom `@username` profiles, full test coverage, VS Code debugging, devcontainers, and linting — all wired together as a pnpm monorepo.
 
 ## Using this as a template
