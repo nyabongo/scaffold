@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: write # required for actions/cache and setup-node's cache: pnpm to save cache entries
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
