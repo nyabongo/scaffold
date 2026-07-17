@@ -1,9 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { from, switchMap } from 'rxjs';
-import { firebaseAuth } from '../firebase';
+import { FIREBASE_AUTH } from '../firebase';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const user = firebaseAuth.currentUser;
+  const auth = inject(FIREBASE_AUTH);
+  const user = auth.currentUser;
   if (!user) {
     return next(req);
   }

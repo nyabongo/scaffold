@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+import type { Mock } from 'vitest';
 import { AuthService } from '../../core/auth/auth.service';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
-  let authService: { signInWithGoogle: jest.Mock };
+  let authService: { signInWithGoogle: Mock };
 
   beforeEach(async () => {
-    authService = { signInWithGoogle: jest.fn() };
+    authService = { signInWithGoogle: vi.fn() };
 
     await TestBed.configureTestingModule({
       imports: [LoginComponent],

@@ -1,34 +1,35 @@
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import * as firebaseAuthModule from 'firebase/auth';
+import type { Mock } from 'vitest';
 import { ApiService } from '../api.service';
+import { FIREBASE_AUTH } from '../firebase';
 import { AuthService } from './auth.service';
 
 let idTokenCallback: ((user: unknown) => void) | null = null;
 
-jest.mock('../firebase', () => ({
-  firebaseAuth: {},
-}));
-
-jest.mock('firebase/auth', () => ({
-  GoogleAuthProvider: jest.fn(),
-  onIdTokenChanged: jest.fn((_auth: unknown, cb: (user: unknown) => void) => {
+vi.mock('firebase/auth', () => ({
+  GoogleAuthProvider: vi.fn(),
+  onIdTokenChanged: vi.fn((_auth: unknown, cb: (user: unknown) => void) => {
     idTokenCallback = cb;
     return () => {};
   }),
-  signInWithPopup: jest.fn(),
-  signOut: jest.fn(),
+  signInWithPopup: vi.fn(),
+  signOut: vi.fn(),
 }));
 
 describe('AuthService', () => {
-  let api: { me: jest.Mock; register: jest.Mock };
+  let api: { me: Mock; register: Mock };
 
   beforeEach(() => {
     idTokenCallback = null;
-    api = { me: jest.fn(), register: jest.fn() };
+    api = { me: vi.fn(), register: vi.fn() };
 
     TestBed.configureTestingModule({
-      providers: [{ provide: ApiService, useValue: api }],
+      providers: [
+        { provide: ApiService, useValue: api },
+        { provide: FIREBASE_AUTH, useValue: {} },
+      ],
     });
   });
 

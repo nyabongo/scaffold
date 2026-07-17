@@ -1,38 +1,37 @@
 import { HttpRequest } from '@angular/common/http';
-import { of } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { firstValueFrom, of } from 'rxjs';
+import type { Auth } from 'firebase/auth';
 import { authInterceptor } from './auth.interceptor';
-import { firebaseAuth } from '../firebase';
+import { FIREBASE_AUTH } from '../firebase';
 
-jest.mock('../firebase', () => ({
-  firebaseAuth: { currentUser: null },
-}));
+function configure(currentUser: Auth['currentUser']) {
+  TestBed.configureTestingModule({
+    providers: [{ provide: FIREBASE_AUTH, useValue: { currentUser } }],
+  });
+}
 
 describe('authInterceptor', () => {
   const req = new HttpRequest('GET', '/auth/me');
 
-  afterEach(() => {
-    (firebaseAuth as { currentUser: unknown }).currentUser = null;
+  it('passes the request through unchanged when there is no signed-in user', async () => {
+    configure(null);
+    const next = vi.fn().mockReturnValue(of('response'));
+
+    await firstValueFrom(TestBed.runInInjectionContext(() => authInterceptor(req, next)));
+
+    expect(next).toHaveBeenCalledWith(req);
   });
 
-  it('passes the request through unchanged when there is no signed-in user', (done) => {
-    const next = jest.fn().mockReturnValue(of('response'));
+  it('attaches an Authorization bearer header when a user is signed in', async () => {
+    configure({
+      getIdToken: vi.fn().mockResolvedValue('id-token-123'),
+    } as unknown as Auth['currentUser']);
+    const next = vi.fn().mockReturnValue(of('response'));
 
-    authInterceptor(req, next).subscribe(() => {
-      expect(next).toHaveBeenCalledWith(req);
-      done();
-    });
-  });
+    await firstValueFrom(TestBed.runInInjectionContext(() => authInterceptor(req, next)));
 
-  it('attaches an Authorization bearer header when a user is signed in', (done) => {
-    (firebaseAuth as { currentUser: unknown }).currentUser = {
-      getIdToken: jest.fn().mockResolvedValue('id-token-123'),
-    };
-    const next = jest.fn().mockReturnValue(of('response'));
-
-    authInterceptor(req, next).subscribe(() => {
-      const clonedReq = next.mock.calls[0][0] as HttpRequest<unknown>;
-      expect(clonedReq.headers.get('Authorization')).toBe('Bearer id-token-123');
-      done();
-    });
+    const clonedReq = next.mock.calls[0][0] as HttpRequest<unknown>;
+    expect(clonedReq.headers.get('Authorization')).toBe('Bearer id-token-123');
   });
 });

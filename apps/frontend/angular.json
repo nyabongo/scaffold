@@ -29,7 +29,8 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"]
+            "styles": ["src/styles.scss"],
+            "allowedCommonJsDependencies": ["@scaffold/shared-types"]
           },
           "configurations": {
             "production": {
@@ -74,7 +75,23 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "coverageExclude": [
+              "src/main.ts",
+              "src/app/app.config.ts",
+              "src/app/app.routes.ts",
+              "src/app/core/firebase.ts",
+              "src/environments/**",
+              "**/*.html"
+            ],
+            "coverageThresholds": {
+              "statements": 90,
+              "functions": 90,
+              "lines": 90,
+              "branches": 80
+            }
+          }
         }
       }
     }

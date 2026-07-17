@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
+import type { Mock } from 'vitest';
 import { AuthService } from '../../core/auth/auth.service';
 import { OnboardComponent } from './onboard.component';
 
 describe('OnboardComponent', () => {
-  let authService: { registerUsername: jest.Mock };
+  let authService: { registerUsername: Mock };
 
   beforeEach(async () => {
-    authService = { registerUsername: jest.fn() };
+    authService = { registerUsername: vi.fn() };
 
     await TestBed.configureTestingModule({
       imports: [OnboardComponent],
@@ -31,7 +32,7 @@ describe('OnboardComponent', () => {
     const fixture = TestBed.createComponent(OnboardComponent);
     const component = fixture.componentInstance;
     const router = TestBed.inject(Router);
-    const navigateSpy = jest.spyOn(router, 'navigate').mockResolvedValue(true);
+    const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
     component.usernameControl.setValue('alice');
 
     await component.submit();

@@ -12,7 +12,7 @@ describe('HomeComponent', () => {
       providers: [provideRouter([]), { provide: AuthService, useValue: authService }],
     });
     const router = TestBed.inject(Router);
-    const navigateSpy = jest.spyOn(router, 'navigate').mockResolvedValue(true);
+    const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
     TestBed.createComponent(HomeComponent);
 

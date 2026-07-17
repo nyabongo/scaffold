@@ -9,13 +9,14 @@ import {
 } from 'firebase/auth';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from '../api.service';
-import { firebaseAuth } from '../firebase';
+import { FIREBASE_AUTH } from '../firebase';
 
 export type AuthStatus = 'loading' | 'signed-out' | 'needs-username' | 'ready';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly api = inject(ApiService);
+  private readonly auth = inject(FIREBASE_AUTH);
 
   private readonly firebaseUserSignal = signal<FirebaseUser | null>(null);
   private readonly profileSignal = signal<UserProfile | null>(null);
@@ -32,7 +33,7 @@ export class AuthService {
   });
 
   constructor() {
-    onIdTokenChanged(firebaseAuth, (user) => {
+    onIdTokenChanged(this.auth, (user) => {
       this.firebaseUserSignal.set(user);
       if (user) {
         void this.refreshProfile();
@@ -49,11 +50,11 @@ export class AuthService {
   }
 
   async signInWithGoogle(): Promise<void> {
-    await signInWithPopup(firebaseAuth, new GoogleAuthProvider());
+    await signInWithPopup(this.auth, new GoogleAuthProvider());
   }
 
   async signOutUser(): Promise<void> {
-    await signOut(firebaseAuth);
+    await signOut(this.auth);
   }
 
   async refreshProfile(): Promise<void> {

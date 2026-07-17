@@ -1,10 +1,11 @@
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
+import type { Mock } from 'vitest';
 import { ApiService } from '../../core/api.service';
 import { ProfileComponent } from './profile.component';
 
-function setup(api: { getProfileByUsername: jest.Mock }, username: string) {
+function setup(api: { getProfileByUsername: Mock }, username: string) {
   return TestBed.configureTestingModule({
     imports: [ProfileComponent],
     providers: [
@@ -20,7 +21,7 @@ function setup(api: { getProfileByUsername: jest.Mock }, username: string) {
 describe('ProfileComponent', () => {
   it('shows the profile when found', async () => {
     const api = {
-      getProfileByUsername: jest
+      getProfileByUsername: vi
         .fn()
         .mockReturnValue(
           of({ username: 'alice', displayName: 'Alice', avatarUrl: null, createdAt: '2026-01-01' }),
@@ -38,7 +39,7 @@ describe('ProfileComponent', () => {
 
   it('sets notFound when the backend returns an error', async () => {
     const api = {
-      getProfileByUsername: jest.fn().mockReturnValue(throwError(() => ({ status: 404 }))),
+      getProfileByUsername: vi.fn().mockReturnValue(throwError(() => ({ status: 404 }))),
     };
     await setup(api, 'ghost');
     const fixture = TestBed.createComponent(ProfileComponent);
