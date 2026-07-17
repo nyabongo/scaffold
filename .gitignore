@@ -1,0 +1,40 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build outputs
+dist/
+build/
+.angular/
+coverage/
+*.tsbuildinfo
+
+# env
+.env
+.env.local
+.env.*.local
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# editors / os
+.DS_Store
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# testing
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# prisma
+apps/backend/prisma/*.db
+
+# firebase
+.firebase/
+firebase-debug.log

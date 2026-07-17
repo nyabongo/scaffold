@@ -1,0 +1,28 @@
+{
+  "name": "Scaffold Dev Container",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "angular.ng-template",
+        "prisma.prisma",
+        "ms-azuretools.vscode-docker",
+        "firsttris.vscode-jest-runner"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+  },
+  "forwardPorts": [3000, 4200, 5432],
+  "postCreateCommand": "corepack enable && pnpm install",
+  "remoteUser": "node"
+}

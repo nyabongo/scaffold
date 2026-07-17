@@ -1,0 +1,14 @@
+<main class="login">
+  <h1>Welcome</h1>
+  <p>Sign in to continue.</p>
+  <button type="button" (click)="signInWithGoogle()" [disabled]="isSigningIn()">
+    @if (isSigningIn()) {
+      Signing in...
+    } @else {
+      Continue with Google
+    }
+  </button>
+  @if (errorMessage()) {
+    <p class="error" role="alert">{{ errorMessage() }}</p>
+  }
+</main>

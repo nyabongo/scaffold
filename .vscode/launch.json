@@ -1,0 +1,40 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug: NestJS Backend",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/apps/backend",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "start:debug"],
+      "sourceMaps": true,
+      "console": "integratedTerminal",
+      "restart": true,
+      "port": 9229
+    },
+    {
+      "name": "Debug: Angular Frontend (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/apps/frontend"
+    },
+    {
+      "name": "Debug: Backend Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/apps/backend",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "test:debug"],
+      "console": "integratedTerminal",
+      "port": 9229
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug: Full Stack",
+      "configurations": ["Debug: NestJS Backend", "Debug: Angular Frontend (Chrome)"]
+    }
+  ]
+}

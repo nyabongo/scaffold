@@ -1,0 +1,22 @@
+services:
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/typescript-node:24
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+    network_mode: service:db
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: local_password_here
+      POSTGRES_DB: scaffold_db
+    volumes:
+      - scaffold-db-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+volumes:
+  scaffold-db-data:

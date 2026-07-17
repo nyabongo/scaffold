@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "angular.ng-template",
+    "prisma.prisma",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers",
+    "firsttris.vscode-jest-runner",
+    "ms-playwright.playwright"
+  ]
+}

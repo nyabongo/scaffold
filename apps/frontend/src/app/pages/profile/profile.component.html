@@ -1,0 +1,11 @@
+<main class="profile">
+  @if (loading()) {
+    <p>Loading...</p>
+  } @else if (notFound()) {
+    <h1>@{{ username }}</h1>
+    <p>This profile doesn't exist.</p>
+  } @else if (profile()) {
+    <h1>{{ profile()!.displayName ?? '@' + profile()!.username }}</h1>
+    <p>&#64;{{ profile()!.username }}</p>
+  }
+</main>

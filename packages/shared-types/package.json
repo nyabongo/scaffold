@@ -1,0 +1,17 @@
+{
+  "name": "@scaffold/shared-types",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "lint:fix": "tsc --noEmit -p tsconfig.json",
+    "test": "echo \"no tests in shared-types\"",
+    "test:coverage": "echo \"no tests in shared-types\"",
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

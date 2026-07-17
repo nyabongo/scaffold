@@ -1,0 +1,28 @@
+<main class="onboard">
+  <h1>Choose a username</h1>
+  <p>This will be your public profile URL: example.com/&#64;username</p>
+
+  <form (ngSubmit)="submit()">
+    <label for="username">Username</label>
+    <input id="username" type="text" [formControl]="usernameControl" autocomplete="off" />
+
+    @if (usernameControl.touched && usernameControl.invalid) {
+      <p class="error" role="alert">
+        Username must be {{ minLength }}-{{ maxLength }} characters: letters, numbers, and
+        underscores only.
+      </p>
+    }
+
+    <button type="submit" [disabled]="isSubmitting()">
+      @if (isSubmitting()) {
+        Saving...
+      } @else {
+        Continue
+      }
+    </button>
+  </form>
+
+  @if (errorMessage()) {
+    <p class="error" role="alert">{{ errorMessage() }}</p>
+  }
+</main>

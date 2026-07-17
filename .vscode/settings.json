@@ -1,0 +1,14 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.workingDirectories": ["apps/backend", "apps/frontend", "packages/shared-types"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    "**/dist": true,
+    "**/coverage": true,
+    "**/.angular": true
+  }
+}
