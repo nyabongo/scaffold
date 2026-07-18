@@ -11,9 +11,20 @@ jest.mock('firebase-admin/app', () => ({
 describe('firebaseAdminProvider', () => {
   const factory = firebaseAdminProvider['useFactory'] as (config: ConfigService) => unknown;
 
+  const originalEmulatorHost = process.env.FIREBASE_AUTH_EMULATOR_HOST;
+
   beforeEach(() => {
     jest.clearAllMocks();
     (firebaseApp.getApps as jest.Mock).mockReturnValue([]);
+    delete process.env.FIREBASE_AUTH_EMULATOR_HOST;
+  });
+
+  afterEach(() => {
+    if (originalEmulatorHost === undefined) {
+      delete process.env.FIREBASE_AUTH_EMULATOR_HOST;
+    } else {
+      process.env.FIREBASE_AUTH_EMULATOR_HOST = originalEmulatorHost;
+    }
   });
 
   function configWith(values: Record<string, string>): ConfigService {
@@ -40,6 +51,17 @@ describe('firebaseAdminProvider', () => {
       privateKey: 'line1\nline2',
     });
     expect(firebaseApp.initializeApp).toHaveBeenCalledWith({ credential: 'cert' });
+    expect(app).toBe('app');
+  });
+
+  it('initializes without credentials when the auth emulator host is set', () => {
+    process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
+    const config = configWith({ FIREBASE_PROJECT_ID: 'demo-scaffold' });
+
+    const app = factory(config);
+
+    expect(firebaseApp.cert).not.toHaveBeenCalled();
+    expect(firebaseApp.initializeApp).toHaveBeenCalledWith({ projectId: 'demo-scaffold' });
     expect(app).toBe('app');
   });
 

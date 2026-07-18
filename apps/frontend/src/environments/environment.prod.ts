@@ -7,4 +7,6 @@ export const environment = {
     projectId: 'REPLACE_ME',
     appId: 'REPLACE_ME',
   },
+  useAuthEmulator: false,
+  authEmulatorHost: '',
 };

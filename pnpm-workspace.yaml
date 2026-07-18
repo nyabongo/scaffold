@@ -11,6 +11,7 @@ allowBuilds:
   msgpackr-extract: true
   prisma: true
   protobufjs: true
+  re2: true
   unrs-resolver: true
 minimumReleaseAgeExclude:
   - firebase-admin@14.2.0
