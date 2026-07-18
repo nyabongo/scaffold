@@ -9,7 +9,8 @@
   },
   "packageManager": "pnpm@11.13.1+sha512.b2fc7683b8a6525414e7d13e1ba28caaddde96bf66ec540bfaeb7e702b81f3e0be4d1f295edf7f9fe0396740a8dce4509c582ddf79891f4543fea32d37645f25",
   "scripts": {
-    "dev": "pnpm --parallel --filter backend --filter frontend dev",
+    "dev": "concurrently -n backend,frontend,emulator -c blue,green,yellow \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\" \"pnpm emulators\"",
+    "emulators": "firebase emulators:start --only auth --project demo-scaffold",
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "test:coverage": "pnpm -r test:coverage",
@@ -24,6 +25,8 @@
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
+    "concurrently": "^10.0.3",
+    "firebase-tools": "^15.24.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.3.0",
     "prettier": "^3.4.2"

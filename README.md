@@ -9,10 +9,8 @@ A template repository for new projects: **NestJS** backend + **Angular** fronten
 
 1. Click **Use this template** on GitHub (or `git clone` and re-point the remote).
 2. Rename the root package (`package.json` `name`), and update `README.md` — including the CI/license badge URLs above, which currently point at this template's own repo.
-3. Create a Firebase project, enable the **Google** sign-in provider, and:
-   - Copy the web app config into `apps/frontend/src/environments/environment.ts` (and `.prod.ts`).
-   - Generate a service account key (Project Settings → Service Accounts) and fill in `apps/backend/.env` (see below).
-4. Update `DATABASE_URL` to point at your own Postgres instance.
+3. Update `DATABASE_URL` to point at your own Postgres instance.
+4. That's it for local dev — `pnpm dev` runs against the local Firebase Auth emulator out of the box, no Firebase project required. See [Local dev: Firebase Auth emulator](#local-dev-firebase-auth-emulator) and [Deploying with a real Firebase project](#deploying-with-a-real-firebase-project) when you're ready to ship.
 
 ## Stack
 
@@ -53,16 +51,31 @@ Requires Node ≥24 and a local (or remote) Postgres instance.
 ```sh
 corepack enable
 pnpm install
-cp apps/backend/.env.example apps/backend/.env   # fill in Firebase + DATABASE_URL
+cp apps/backend/.env.example apps/backend/.env   # defaults already point at the local Auth emulator; just check DATABASE_URL
 pnpm --filter backend exec prisma migrate deploy
-pnpm dev   # runs backend (:3000) and frontend (:4200) together
+pnpm dev   # runs backend (:3000), frontend (:4200), and the Firebase Auth emulator (:9099, UI on :4000) together
 ```
+
+## Local dev: Firebase Auth emulator
+
+No Firebase project, Google Cloud account, or real credentials are needed for local development. `pnpm dev` starts the [Firebase Auth emulator](https://firebase.google.com/docs/emulator-suite) alongside backend and frontend, using the `demo-scaffold` project ID (the `demo-` prefix puts it in a fully offline mode). Sign-in still goes through the normal **Continue with Google** button, but the emulator shows its own fake account picker instead of a real Google OAuth screen — pick or create a test user there.
+
+- Config lives in `firebase.json` / `.firebaserc` (repo root), `apps/backend/.env.example` (`FIREBASE_AUTH_EMULATOR_HOST`), and `apps/frontend/src/environments/environment.ts` (`useAuthEmulator`, `authEmulatorHost`).
+- The emulator UI (test users, etc.) is at [http://localhost:4000](http://localhost:4000).
+- Emulator data resets each time it restarts — nothing persists between `pnpm dev` runs.
+
+## Deploying with a real Firebase project
+
+1. Create a Firebase project and enable the **Google** sign-in provider.
+2. Copy the web app config into `apps/frontend/src/environments/environment.prod.ts`, and set `useAuthEmulator: false`.
+3. Generate a service account key (Project Settings → Service Accounts) and set `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` in your deployment environment — and remove `FIREBASE_AUTH_EMULATOR_HOST` so the backend uses real credentials instead of the emulator.
 
 ## Common scripts (from the repo root)
 
 | Command                             | What it does                                        |
 | ----------------------------------- | --------------------------------------------------- |
-| `pnpm dev`                          | Run backend + frontend in watch mode                |
+| `pnpm dev`                          | Run backend + frontend + Firebase Auth emulator     |
+| `pnpm emulators`                    | Run only the Firebase Auth emulator                 |
 | `pnpm build`                        | Build all workspace packages                        |
 | `pnpm test` / `pnpm test:coverage`  | Run unit tests (with coverage) across all packages  |
 | `pnpm e2e`                          | Backend Supertest e2e, then frontend Playwright e2e |
