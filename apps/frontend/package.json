@@ -35,7 +35,7 @@
     "@playwright/test": "^1.49.1",
     "@vitest/coverage-v8": "^4.1.10",
     "angular-eslint": "^22.1.0",
-    "eslint": "^9.18.0",
+    "eslint": "^10.7.0",
     "jsdom": "^29.1.1",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
